@@ -130,6 +130,7 @@ Summarise (count=n()) calculates the number of occurrences (n(), which counts ro
 filter(count > 1)  will filter the grouped data to include combinations (patient_id, diagnosis) where the count > 1, indicating duplicates.
 5 such duplicate entries were found in Patient_Diagnosis dataframe. I removed those entries from Patient_Diagnosis dataset using slice_min() function. slice_min(diagnosis_date, with_ties = FALSE): Within each group (patient_id and diagnosis), selects the row with the minimum diagnosis_date. The argument with_ties = FALSE ensures that if there are ties (multiple rows with the same minimum diagnosis_date), only the first occurrence is kept. ungroup() will remove grouping.
 To remove the duplicate entries from Patient_Treatment, I used distint() function. Distinct() selects unique rows from a dataframe. It removes duplicate rows based on all columns by default.
+![image](https://github.com/user-attachments/assets/bd453e0d-74be-4804-9910-c2a45334671c)
 
 
                                                                                                               
