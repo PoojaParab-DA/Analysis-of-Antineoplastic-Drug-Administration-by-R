@@ -217,7 +217,7 @@ dx_by_year_graph <- diagnosis_filtered %>%
 
 print(dx_by_year_graph)
  
-
+![image](https://github.com/user-attachments/assets/d1d92e9a-1a44-46f4-80c8-750239d13f9c)
  
 ## Question 2
 The clinic wants to know how long it takes for patients to start therapy after being diagnosed, which they consider to be helpful in understanding the quality of care for the patient. How long after being diagnosed do patients start treatment?
