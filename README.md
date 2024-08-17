@@ -1,11 +1,10 @@
 # Analysis-of-Antineoplastic-Drug-Administration by R
-Pooja Parab
-2024-06-21
-Introduction to study
+
+## Introduction to study
 A cancer clinic wants to understand how four antineoplastic (e.g., anti-cancer) drugs are being given. Drugs A and B are chemotherapy drugs (sometimes given in combination) and Drugs C and D are immunotherapy drugs. The clinic has provided us with two datasets: one gives diagnoses by patient and the other dataset gives treatment dates for these patients for the drugs of interest. None of the patients in this cohort have died to date, and no data is missing.
 
 
-General questions
+## General questions
 Based on the information provided above and the attached dataset, what three questions would you like to understand prior to conducting any analysis of the data?
 The following questions I would like to understand prior to conducting data analysis.
 1.	What does the data represent and where does the data come from?
@@ -18,7 +17,7 @@ This will be helpful in aligning the analysis with stackholders needs and will m
 3.	What is the goal of the study and what output we are looking for?
 Understanding the goal of the study and the outcome from the analysis will provide me with clarity on desired output, assumptions if necessary, steps of analysis, study visualizations, and effective decision making.
 
-Data analysis questions
+## Data analysis questions
 Setting up my environment
 Note: Setting up my environment by adding necessary packages including tidyverse, sarvival,etc.
 library(tidyverse)
@@ -33,11 +32,11 @@ library(tidyverse)
 ## ✖ dplyr::lag()    masks stats::lag()
 ## ℹ Use the conflicted package (<http://conflicted.r-lib.org/>) to force all conflicts to become errors
 library(survival)
-Uploading required dataframes
+### Uploading required dataframes
 Note: Reading the Patient_Diagnosis.csv and Patient_Treatment.csv files.
 Patient_Diagnosis <- read.csv("Patient_Diagnosis.csv")
 Patient_Treatment <- read.csv("Patient_Treatment.csv")
-Exploring Datasets
+### Exploring Datasets
 Note: I’ll check columns and column formats for consistency.
 str(Patient_Diagnosis)
 ## 'data.frame':    57 obs. of  4 variables:
@@ -86,7 +85,7 @@ summary(Patient_Treatment)
 •	head() function will give details of first 6 rows.
 •	summary() will give the statistical summary as shown above. We got the basic details of both the dataframes.
 Explanation for exploring data: Here, Patient_id is in integer form. As we are not going to perform numerical operations on Patient_id, we can convert it to character. diagnosis_date and treatment_date are in char format which ideally should be in date format. Other column formats also we will update.
-Updating Datatypes
+### Updating Datatypes
 Note: Updating datatypes will ensure all the variables in the specific column have specific format. 
 Patient_Diagnosis <-
   mutate( Patient_Diagnosis,
@@ -136,10 +135,10 @@ To remove the duplicate entries from Patient_Treatment, I used distint() functio
                                                                                                               
 
 
-Question 1
+## Question 1
 the clinic would like to know the distribution of cancer types across their patients. Please provide the clinic with this information. 
 Ans: To understand the distribution of cancer type  across the patients, we will group the data yearwise. First we will extract the number of patients for each cancer type. We will get the number patients having colon cancer and breast cancer. After that we will calculate the yearwise numbers. We will join the dataframes. Finally, we will represent the data graphically. 
-Steps:
+### Steps:
 Note: We will represent the yearwise data for each cancer type.
 all_dx <- diagnosis_filtered %>%
   group_by(diagnosis) %>%                    #group data by diagnosis
@@ -220,11 +219,11 @@ print(dx_by_year_graph)
  
 
  
-Question 2
+## Question 2
 The clinic wants to know how long it takes for patients to start therapy after being diagnosed, which they consider to be helpful in understanding the quality of care for the patient. How long after being diagnosed do patients start treatment?
 Ans: Here, we need to find out the gap between diagnosis date and the treatment date. 
 For that, I first merged both the dataframes (diagnosis_filtered and Treatment_filtered). I thought if I sort the patient_id and treatment_date columns in ascending order, the first row will give treatment start date of each patient as diagnosis_date per patients is constant. I will extract the first row and then using difftime() function I will calculate the difference between treatment date and diagnosis date in days.
-Steps:
+### Steps:
 We will merge diagnosis_filtered and Treatment_filtered datasets by primary key patient_id.
 merge_diagnosis_treatment <- merge(diagnosis_filtered, Treatment_filtered, by= "patient_id")  #join
 Let’s sort the dataframe by patient_id.
@@ -358,11 +357,11 @@ print(breast_cancer_summary)
 ##  -6.000   3.250   4.500   4.676   6.000  20.000
 The colon cancer patients mean time to get the treatment after diagnosis is 28.17 days and that of breast_cancer patients is 4.7 days.
  
-Question 3
+## Question 3
 3.	A patient’s first-line treatment is the drug (i.e., monotherapy) or set of drugs (i.e., combination therapy) that the patient received at the start of systemic treatment (e.g.,first treatment after earliest diagnosis) for their disease (for more information on first-line treatments, click here). Without access to information about the clinician’s specific decision making, we can infer a patient’s first-line treatment regimen based on the drug or set of drugs they received in their first treatment instance. Using this approach, which treatment regimens [i.e., drug(s)] do you think would be indicateds as first-line treatment for patients with… ○ breast cancer only? ○ colon cancer only? ○ both breast and colon cancer?
 Ans: To know the first-line treatment regimen, I thought of counting the occurrences of drug code within each cancer type during first treatment_date after diagnosis. 
 
-Steps: 
+### Steps: 
 Count the occurrences of each drug within each cancer type
 drug_counts <- First_Rows %>%
   group_by(First_Rows$diagnosis, First_Rows$drug_code) %>%
